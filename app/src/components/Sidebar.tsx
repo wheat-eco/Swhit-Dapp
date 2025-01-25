@@ -22,7 +22,7 @@ export function AppSidebar() {
       <SidebarHeader className="flex h-[60px] items-center px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_20250125-110514-30oRG9LGNfH1yhz2gc0QglrDAotZQl.png"
+            src="logo.png"
             alt="Logo"
             width={32}
             height={32}
