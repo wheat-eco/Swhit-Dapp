@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, LineChart, Settings, Wallet } from "lucide-react"
+import { Wallet, Banknote } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -20,44 +20,28 @@ export function AppSidebar() {
     <Sidebar className="border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <SidebarHeader className="flex h-[60px] items-center px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="Logo" width={32} height={32} />
-          <span className="text-lg font-bold">SuiDEX</span>
+          <Image src="/logo.png" alt="SuiDEX Logo" width={32} height={32} />
+          <span className="text-xl font-bold">SuiDEX</span>
         </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm font-semibold">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="text-base">
                   <Link href="/swap">
-                    <Home className="h-4 w-4" />
+                    <Wallet className="h-5 w-5 mr-3" />
                     <span>Swap</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/pool">
-                    <Wallet className="h-4 w-4" />
-                    <span>Pool</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/charts">
-                    <LineChart className="h-4 w-4" />
-                    <span>Charts</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/settings">
-                    <Settings className="h-4 w-4" />
-                    <span>Settings</span>
+                <SidebarMenuButton asChild className="text-base">
+                  <Link href="/faucet">
+                    <Banknote className="h-5 w-5 mr-3" />
+                    <span>Faucet</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

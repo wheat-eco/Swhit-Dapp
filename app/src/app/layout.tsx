@@ -1,6 +1,17 @@
 import "./globals.css"
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { WalletWrapper } from "@/components/WalletWrapper"
+import { Inter } from "next/font/google"
+import { WalletProvider } from "@mysten/dapp-kit"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { createNetworkConfig, SuiClientProvider } from "@mysten/dapp-kit"
+import { getFullnodeUrl } from "@mysten/sui.js/client"
+
+const inter = Inter({ subsets: ["latin"] })
+
+const queryClient = new QueryClient()
+const { networkConfig } = createNetworkConfig({
+  testnet: { url: getFullnodeUrl("testnet") },
+  mainnet: { url: getFullnodeUrl("mainnet") },
+})
 
 export default function RootLayout({
   children,
@@ -9,10 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <WalletWrapper>
-          <SidebarProvider>{children}</SidebarProvider>
-        </WalletWrapper>
+      <body className={inter.className}>
+        <QueryClientProvider client={queryClient}>
+          <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+            <WalletProvider>{children}</WalletProvider>
+          </SuiClientProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )
