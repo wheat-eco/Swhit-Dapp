@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { ConnectButton } from "@mysten/wallet-kit"
 import { Bell } from "lucide-react"
-import { WalletWrapper } from "@/components/WalletWrapper"
 import { AppSidebar } from "@/components/Sidebar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,14 +12,6 @@ import { Label } from "@/components/ui/label"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export default function Home() {
-  return (
-    <WalletWrapper>
-      <HomeContent />
-    </WalletWrapper>
-  )
-}
-
-function HomeContent() {
   const [fromToken, setFromToken] = useState("")
   const [toToken, setToToken] = useState("")
   const [fromAmount, setFromAmount] = useState("")

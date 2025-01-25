@@ -13,7 +13,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
 
 export function AppSidebar() {
@@ -21,12 +20,7 @@ export function AppSidebar() {
     <Sidebar className="border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <SidebarHeader className="flex h-[60px] items-center px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="logo.png"
-            alt="Logo"
-            width={32}
-            height={32}
-          />
+          <Image src="/logo.png" alt="Logo" width={32} height={32} />
           <span className="text-lg font-bold">SuiDEX</span>
         </Link>
       </SidebarHeader>
