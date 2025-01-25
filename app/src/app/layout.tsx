@@ -1,15 +1,16 @@
 import "./globals.css"
 import { Inter } from "next/font/google"
-import { WalletKitProvider } from "@mysten/wallet-kit"
-import { SuiClientProvider } from "@mysten/sui-react"
+import { WalletProvider } from "@mysten/dapp-kit"
+import { createNetworkConfig, SuiClientProvider } from "@mysten/dapp-kit"
 import { getFullnodeUrl } from "@mysten/sui.js/client"
 
 const inter = Inter({ subsets: ["latin"] })
 
-const networks = {
+const queryClient = new QueryClient()
+const { networkConfig } = createNetworkConfig({
   testnet: { url: getFullnodeUrl("testnet") },
   mainnet: { url: getFullnodeUrl("mainnet") },
-}
+})
 
 export default function RootLayout({
   children,
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SuiClientProvider networks={networks} defaultNetwork="testnet">
-          <WalletKitProvider>{children}</WalletKitProvider>
-        </SuiClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+            <WalletProvider>{children}</WalletProvider>
+          </SuiClientProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )
