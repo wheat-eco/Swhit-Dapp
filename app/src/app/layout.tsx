@@ -1,3 +1,4 @@
+import "./globals.css"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { WalletWrapper } from "@/components/WalletWrapper"
 
