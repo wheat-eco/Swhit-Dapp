@@ -1,101 +1,171 @@
-import Image from "next/image";
+"use client"
+
+import { useState } from "react"
+import { ConnectButton } from "@mysten/dapp-kit"
+import { useWalletKit } from "@mysten/wallet-kit"
+import { TransactionBlock } from "@mysten/sui.js/transactions"
+import { SuiClient } from "@mysten/sui.js/client"
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
+import { MenuIcon, MoonIcon, SunIcon } from "lucide-react"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [isDarkMode, setIsDarkMode] = useState(true)
+  const [fromToken, setFromToken] = useState("")
+  const [toToken, setToToken] = useState("")
+  const [fromAmount, setFromAmount] = useState("")
+  const [toAmount, setToAmount] = useState("")
+  const [slippage, setSlippage] = useState("0.5")
+  const [deadline, setDeadline] = useState("30")
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const { currentAccount } = useWalletKit()
+
+  const handleSwap = async () => {
+    if (!currentAccount) {
+      console.error("Wallet not connected")
+      return
+    }
+
+    const tx = new TransactionBlock()
+    // Here we would add the swap logic using the Sui SDK
+    // For example:
+    // tx.moveCall({
+    //   target: `${PACKAGE_ID}::dex::swap`,
+    //   arguments: [tx.pure(fromToken), tx.pure(toToken), tx.pure(fromAmount)],
+    // })
+
+    try {
+      const client = new SuiClient({ url: "https://fullnode.mainnet.sui.io:443" })
+      const result = await client.signAndExecuteTransactionBlock({
+        signer: currentAccount,
+        transactionBlock: tx,
+      })
+      console.log("Swap executed:", result)
+    } catch (e) {
+      console.error("Error executing swap:", e)
+    }
+  }
+
+  return (
+    <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
+      <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
+        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center">
+            <Button variant="ghost" size="icon" className="mr-4">
+              <MenuIcon className="h-6 w-6" />
+            </Button>
+            <h1 className="text-xl font-bold text-gray-800 dark:text-white">SuiDEX</h1>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+            >
+              Swap
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+            >
+              Pool
+            </Button>
+            <ConnectButton />
+            <Button variant="ghost" size="icon" onClick={() => setIsDarkMode(!isDarkMode)}>
+              {isDarkMode ? <SunIcon className="h-6 w-6" /> : <MoonIcon className="h-6 w-6" />}
+            </Button>
+          </div>
+        </nav>
+
+        <main className="container mx-auto px-4 py-8">
+          <Card className="max-w-md mx-auto">
+            <CardHeader>
+              <CardTitle>Swap Tokens</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="fromToken">From</Label>
+                  <div className="flex space-x-2 mt-1">
+                    <Input
+                      id="fromToken"
+                      type="number"
+                      value={fromAmount}
+                      onChange={(e) => setFromAmount(e.target.value)}
+                      placeholder="0.0"
+                      className="flex-grow"
+                    />
+                    <Select value={fromToken} onValueChange={setFromToken}>
+                      <SelectTrigger className="w-[120px]">
+                        <SelectValue placeholder="Select token" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="SUI">SUI</SelectItem>
+                        <SelectItem value="USDC">USDC</SelectItem>
+                        <SelectItem value="ETH">ETH</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="toToken">To</Label>
+                  <div className="flex space-x-2 mt-1">
+                    <Input
+                      id="toToken"
+                      type="number"
+                      value={toAmount}
+                      onChange={(e) => setToAmount(e.target.value)}
+                      placeholder="0.0"
+                      className="flex-grow"
+                    />
+                    <Select value={toToken} onValueChange={setToToken}>
+                      <SelectTrigger className="w-[120px]">
+                        <SelectValue placeholder="Select token" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="SUI">SUI</SelectItem>
+                        <SelectItem value="USDC">USDC</SelectItem>
+                        <SelectItem value="ETH">ETH</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="slippage">Slippage Tolerance (%)</Label>
+                  <Input
+                    id="slippage"
+                    type="number"
+                    value={slippage}
+                    onChange={(e) => setSlippage(e.target.value)}
+                    className="w-full"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="deadline">Transaction Deadline (minutes)</Label>
+                  <Input
+                    id="deadline"
+                    type="number"
+                    value={deadline}
+                    onChange={(e) => setDeadline(e.target.value)}
+                    className="w-full"
+                  />
+                </div>
+
+                <Button className="w-full" onClick={handleSwap}>
+                  Swap
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
     </div>
-  );
+  )
 }
+
