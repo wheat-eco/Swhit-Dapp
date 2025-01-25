@@ -1,4 +1,4 @@
-import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
+import { SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
 
 import { getFullnodeUrl } from '@mysten/sui/client';
 import { Sidebar } from '@/components/sidebar';
@@ -15,14 +15,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         
-          <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+          
             <WalletProvider>
               <div className="flex">
                 <Sidebar />
                 <main className="flex-1 p-4">{children}</main>
               </div>
             </WalletProvider>
-          </SuiClientProvider>
+          
 
       </body>
     </html>
