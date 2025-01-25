@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ConnectButton } from "@mysten/dapp-kit"
-import { useWalletKit } from "@mysten/wallet-kit"
+import { ConnectButton, useWalletKit } from "@mysten/wallet-kit"
 import { TransactionBlock } from "@mysten/sui.js/transactions"
 import { SuiClient } from "@mysten/sui.js/client"
 
@@ -12,8 +11,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { MenuIcon, MoonIcon, SunIcon } from "lucide-react"
+import { WalletWrapper } from "@/components/WalletWrapper"
 
 export default function Home() {
+  return (
+    <WalletWrapper>
+      <HomeContent />
+    </WalletWrapper>
+  )
+}
+
+function HomeContent() {
   const [isDarkMode, setIsDarkMode] = useState(true)
   const [fromToken, setFromToken] = useState("")
   const [toToken, setToToken] = useState("")
